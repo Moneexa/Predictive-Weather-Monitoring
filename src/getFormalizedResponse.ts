@@ -1,9 +1,6 @@
 import { ApiResponse, WeatherUpdate } from "./types/Types";
 
-export const getFormalizedReponse = (
-  weatherApiResponse: ApiResponse,
-  type: "weekly" | "hourly"
-) => {
+export const getFormalizedReponse = (weatherApiResponse: ApiResponse) => {
   if (weatherApiResponse.status === "success") {
     const dataResponse = weatherApiResponse.data;
 
@@ -19,12 +16,12 @@ export const getFormalizedReponse = (
     time.forEach((timeDate: string, index: number) => {
       const hours = new Date(timeDate).getHours();
       const date = new Date(timeDate).getDate();
-      if (hours > currentHour && date == today) {
-        otherTemperaturesObj[hours] = {
+      if ((hours > currentHour && date == today) || date > today) {
+        otherTemperaturesObj[hours > 12 ? hours + "pm" : hours + "am"] = {
           temperature: `${temperature2m[index]} degree Celcius`,
-          "day duration": is_day[index],
-          rain: rain[index],
-          snow: snow[index],
+          "day duration": is_day[index] ? "bright day" : "not bright day",
+          rain: `${rain[index]} millimeters`,
+          snow: `${snow[index]} millimeters`,
         };
       }
     });

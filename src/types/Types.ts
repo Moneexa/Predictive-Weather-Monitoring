@@ -3,9 +3,9 @@ export type WeatherUpdate = {
   otherTemperatures: {
     [key: string]: {
       temperature: string;
-      "day duration": number;
-      rain: number;
-      snow: number;
+      "day duration": string;
+      rain: string;
+      snow: string;
     };
   };
 };
