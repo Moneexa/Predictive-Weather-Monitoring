@@ -12,7 +12,7 @@ const App: React.FC = () => {
     const [chatResponse, setChatResponse] = useState('')
     useEffect(() => {
         async function abc() {
-            const results = await getWeatherUpdate("weekly")
+            const results = await getWeatherUpdate("hourly")
             if (results.status == "success") {
                 const response = getFormalizedReponse(results)
                 if (response) {
@@ -48,6 +48,7 @@ const App: React.FC = () => {
                 const decoder = new TextDecoder();
                 let done = false;
                 let partialData = '';
+                setChatResponse("")
 
                 while (!done) {
                     if (reader) {
@@ -73,12 +74,21 @@ const App: React.FC = () => {
             console.error('Error:', error);
         }
     }
-    return <>
-        <form onSubmit={hanSubmission}>
-            <input value={userInput} placeholder='Type the prompt here' onChange={(e) => handleInput(e.target.value)} />
+    return <div style={{ margin: "10px" }}>
+        <form onSubmit={hanSubmission} style={{ padding: "50px", flexGrow: "2 1", display: "flex", justifyContent: "center", alignItems: "center" }}>
+            <input value={userInput} placeholder='Type the prompt here' onChange={(e) => handleInput(e.target.value)} style={{
+                borderRadius: "25px", width: "100%",
+                padding: "10px 25px",
+                border: "1px solid #ccc",
+                fontSize: "16px",
+                outline: "none",
+                transition: "all 0.3s ease",
+                boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)"
+            }} />
+            <button>Submit</button>
         </form>
         <p>{chatResponse}</p>
-    </>
+    </div>
 };
 
 export default App;
